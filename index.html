@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#142b3b"><title>CardCapture — Business Card Scanner</title>
+<style>
+:root{--ink:#142b3b;--muted:#637381;--line:#dce4e8;--paper:#f4f7f8;--accent:#176b61;--accent2:#e6f3ef;--white:#fff}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}header{background:var(--ink);color:white;padding:22px 18px 24px;border-radius:0 0 22px 22px}header .eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;opacity:.7}h1{font-size:27px;line-height:1.15;margin:7px 0}header p{margin:8px 0 0;color:#d1dde3;font-size:14px}.wrap{max-width:760px;margin:auto;padding:16px 14px 36px}.tabs{display:flex;gap:8px;margin:0 0 14px}.tab{border:1px solid var(--line);background:white;border-radius:999px;padding:10px 15px;font-weight:650;color:var(--ink);cursor:pointer}.tab.active{background:var(--ink);color:white;border-color:var(--ink)}.panel{background:white;border:1px solid var(--line);border-radius:18px;padding:17px;margin-bottom:14px;box-shadow:0 3px 12px #142b3b08}.panel h2{font-size:17px;margin:0 0 12px}.sub{font-size:13px;color:var(--muted);margin:-6px 0 14px}.capture{display:grid;grid-template-columns:1fr 1fr;gap:10px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;border:0;border-radius:12px;padding:12px 14px;background:var(--accent);color:white;font-weight:700;font-size:14px;cursor:pointer;text-align:center}.btn.secondary{background:var(--accent2);color:var(--accent)}.btn.dark{background:var(--ink)}.btn:disabled{opacity:.45;cursor:not-allowed}.preview{width:100%;max-height:300px;object-fit:contain;background:#edf1f2;border-radius:12px;margin-top:12px;display:none}.status{font-size:13px;color:var(--muted);margin-top:10px;min-height:18px}.progress{height:5px;border-radius:10px;background:#e9eef0;overflow:hidden;margin-top:8px;display:none}.progress span{display:block;height:100%;width:0;background:var(--accent);transition:width .2s}.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:5px}.field.full{grid-column:1/-1}label{font-size:12px;font-weight:750;color:#52636d}input,textarea,select{width:100%;border:1px solid #ccd7dc;border-radius:10px;padding:11px 12px;font:inherit;font-size:15px;color:var(--ink);background:white;min-width:0}textarea{min-height:75px;resize:vertical}.form-actions{display:flex;gap:9px;margin-top:14px}.form-actions .btn{flex:1}.hidden{display:none!important}.list-head{display:flex;align-items:center;justify-content:space-between;gap:10px}.count{font-size:12px;color:var(--muted)}.contact{border:1px solid var(--line);border-radius:13px;padding:13px;margin-top:10px}.contact-top{display:flex;justify-content:space-between;gap:10px}.contact strong{display:block;font-size:15px}.contact .company{font-size:13px;color:var(--muted);margin-top:2px}.contact .meta{font-size:12px;color:var(--muted);margin-top:7px;overflow-wrap:anywhere}.contact-actions{display:flex;gap:7px;margin-top:10px}.mini{border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 10px;font-size:12px;font-weight:700;color:var(--ink);cursor:pointer}.empty{text-align:center;padding:22px 8px;color:var(--muted);font-size:14px}.notice{background:#fff7df;border:1px solid #f0dfa7;border-radius:12px;padding:11px 12px;font-size:12px;color:#6b571b;margin-top:12px}.privacy{font-size:12px;color:var(--muted);text-align:center;padding:4px 12px 20px}.small{font-size:12px;color:var(--muted)}.ocr-output{display:none;margin-top:12px}.ocr-output textarea{font-family:ui-monospace,monospace;font-size:13px;min-height:120px;background:#f8fafb}.diagnostic{font-size:12px;color:var(--muted);margin-top:7px}@media(max-width:440px){.fields{grid-template-columns:1fr}.field.full{grid-column:auto}.wrap{padding-left:11px;padding-right:11px}.panel{padding:14px}.capture{grid-template-columns:1fr 1fr}.btn{padding:11px 8px;font-size:13px}}
+</style>
+</head>
+<body>
+<header><div class="eyebrow">Personal contact intelligence</div><h1>CardCapture</h1><p>Scan a card. Verify the details. Export your network.</p></header>
+<main class="wrap">
+<div class="tabs"><button class="tab active" data-tab="scan">＋ Scan card</button><button class="tab" data-tab="contacts">▤ Contacts <span id="tabCount">0</span></button></div>
+<section id="scanPanel">
+<div class="panel"><h2>1. Capture both sides</h2><p class="sub">Photograph the full card, front and back. AI extraction works best with sharp, straight-on, well-lit photos.</p>
+<div class="fields">
+<div class="field"><label>FRONT SIDE *</label><div class="capture"><label class="btn" for="cameraInput">▣ Take front photo</label><input id="cameraInput" type="file" accept="image/*" capture="environment" class="hidden"><label class="btn secondary" for="fileInput">Choose image</label><input id="fileInput" type="file" accept="image/*" class="hidden"></div><img id="preview" class="preview" alt="Front of business card"></div>
+<div class="field"><label>BACK SIDE (OPTIONAL)</label><div class="capture"><label class="btn" for="backCameraInput">▣ Take back photo</label><input id="backCameraInput" type="file" accept="image/*" capture="environment" class="hidden"><label class="btn secondary" for="backFileInput">Choose image</label><input id="backFileInput" type="file" accept="image/*" class="hidden"></div><img id="backPreview" class="preview" alt="Back of business card"></div>
+</div>
+<div id="ocrStatus" class="status" aria-live="polite">Add the front side; add the back if it contains more details.</div><div id="progress" class="progress"><span id="progressBar"></span></div>
+<div class="form-actions"><button id="aiBtn" class="btn dark" disabled>✨ Extract with AI</button><button id="readBtn" class="btn secondary" disabled>Use local OCR</button><button id="clearPhoto" class="btn secondary" disabled>Clear photos</button></div>
+<div class="diagnostic" id="aiHint">AI extraction requires the included backend to be running with an API key. Local OCR remains available as a fallback.</div><details class="ocr-output" id="ocrDetails"><summary><strong>Raw OCR text (debug / copy)</strong></summary><textarea id="rawOcr" readonly placeholder="Recognized text will appear here"></textarea><div class="diagnostic">If this box is empty, OCR did not read the image. If text appears here but fields are wrong, the field-mapping logic needs adjustment.</div></details><div class="notice">OCR can make mistakes. Always verify names, email addresses and phone numbers before saving. Local OCR runs in your browser. AI extraction sends the front/back images to your own backend and the configured model provider; use only if you are comfortable with that processing.</div></div>
+<div class="panel"><h2>2. Review and save contact</h2><p class="sub">Fill in what matters to you. You can edit every field.</p><form id="contactForm"><div class="fields">
+<div class="field"><label for="name">Full name *</label><input id="name" required autocomplete="name" placeholder="e.g. Priya Sharma"></div>
+<div class="field"><label for="designation">Designation</label><input id="designation" placeholder="e.g. Procurement Manager"></div>
+<div class="field"><label for="company">Company</label><input id="company" autocomplete="organization" placeholder="Company name"></div>
+<div class="field"><label for="department">Department</label><input id="department" placeholder="e.g. Supply Chain"></div>
+<div class="field"><label for="phone">Phone</label><input id="phone" type="tel" autocomplete="tel" placeholder="+91 …"></div>
+<div class="field"><label for="email">Email</label><input id="email" type="text" autocomplete="email" placeholder="name@company.com"></div>
+<div class="field"><label for="website">Website</label><input id="website" type="text" placeholder="company.com"></div>
+<div class="field"><label for="category">Category</label><select id="category"><option value="">Choose category</option><option>Customer</option><option>Supplier</option><option>Prospect</option><option>Partner</option><option>Recruiter</option><option>Colleague</option><option>Other</option></select></div>
+<div class="field full"><label for="address">Address</label><textarea id="address" placeholder="Office / postal address"></textarea></div>
+<div class="field"><label for="event">Event / source</label><input id="event" placeholder="e.g. Windergy India 2026"></div>
+<div class="field"><label for="followup">Follow-up date</label><input id="followup" type="date"></div>
+<div class="field full"><label for="notes">Notes / next action</label><textarea id="notes" placeholder="What you discussed, requirements, next step…"></textarea></div>
+</div><div class="form-actions"><button class="btn" type="submit" id="saveBtn">Save contact</button><button class="btn secondary" type="button" id="resetForm">Clear fields</button></div><div id="formStatus" class="status" aria-live="polite"></div></form></div>
+</section>
+<section id="contactsPanel" class="hidden"><div class="panel"><div class="list-head"><div><h2 style="margin:0">Your contacts</h2><div class="count" id="contactCount">Saved on this device</div></div><button id="exportBtn" class="btn">↓ Export CSV</button></div><p class="sub" style="margin-top:10px">Export periodically and keep a backup on your laptop.</p><input id="search" type="search" placeholder="Search name, company, email, category…" aria-label="Search contacts"><div id="contactList"></div><div class="form-actions"><button id="backupBtn" class="btn secondary">Export JSON backup</button><button id="importBtn" class="btn secondary">Import JSON backup</button><input id="importFile" class="hidden" type="file" accept="application/json,.json"></div><div class="notice">Contacts are stored in this browser on this device. They do not automatically sync to your laptop or another phone. Export a CSV or JSON backup before clearing browser data or changing devices.</div></div></section>
+<div class="privacy">CardCapture · AI-assisted prototype · Verify every extracted field</div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script>
+(()=>{
+const $=id=>document.getElementById(id);const fields=['name','designation','company','department','phone','email','website','category','address','event','followup','notes'];let contacts=[];let editingId=null;let imageFile=null;let worker=null;
+try{contacts=JSON.parse(localStorage.getItem('cardcapture_contacts')||'[]');if(!Array.isArray(contacts))contacts=[]}catch(e){contacts=[]}
+function persist(){try{localStorage.setItem('cardcapture_contacts',JSON.stringify(contacts));return true}catch(e){alert('Could not save. Browser storage may be full. Export a backup and try again.');return false}}
+function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function setTab(tab){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));$('scanPanel').classList.toggle('hidden',tab!=='scan');$('contactsPanel').classList.toggle('hidden',tab!=='contacts');if(tab==='contacts')renderContacts()}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>setTab(b.dataset.tab)));
+let frontFile=null, backFile=null;
+function setImage(file, side){
+ if(!file)return;
+ if(side==='front'){frontFile=file;$('preview').src=URL.createObjectURL(file);$('preview').style.display='block';}
+ else {backFile=file;$('backPreview').src=URL.createObjectURL(file);$('backPreview').style.display='block';}
+ $('readBtn').disabled=!frontFile;$('aiBtn').disabled=!frontFile;$('clearPhoto').disabled=!frontFile&&!backFile;
+ $('ocrStatus').textContent=backFile?'Front and back photos ready. Choose AI extraction for best field mapping.':'Front photo ready. Add the back if it contains more information.';
+}
+$('cameraInput').addEventListener('change',e=>setImage(e.target.files[0],'front'));
+$('fileInput').addEventListener('change',e=>setImage(e.target.files[0],'front'));
+$('backCameraInput').addEventListener('change',e=>setImage(e.target.files[0],'back'));
+$('backFileInput').addEventListener('change',e=>setImage(e.target.files[0],'back'));
+$('clearPhoto').onclick=()=>{
+ frontFile=null;backFile=null;
+ ['preview','backPreview'].forEach(id=>{$(id).removeAttribute('src');$(id).style.display='none'});
+ ['cameraInput','fileInput','backCameraInput','backFileInput'].forEach(id=>$(id).value='');
+ $('readBtn').disabled=true;$('aiBtn').disabled=true;$('clearPhoto').disabled=true;
+ $('ocrStatus').textContent='Photos cleared.';$('rawOcr').value='';
+};
+function parseText(text){const lines=text.split(/\n+/).map(x=>x.trim()).filter(Boolean);const email=(text.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i)||[])[0]||'';const phoneMatches=text.match(/(?:\+?\d[\d ()\-.]{7,}\d)/g)||[];const phone=phoneMatches.map(x=>x.trim()).find(x=>x.replace(/\D/g,'').length>=8)||'';const website=(text.match(/(?:https?:\/\/)?(?:www\.)?[a-z0-9-]+(?:\.[a-z0-9-]+)+\.[a-z]{2,}|(?:www\.)?[a-z0-9-]+\.(?:com|in|net|org|co\.in|io|ai|biz)/i)||[])[0]||'';const skip=/@|www\.|https?:|\b(phone|mobile|tel|fax|email|e-mail|www|http|linkedin|address|india|road|street|nagar|floor|plot|pin code|zip)\b/i;const candidates=lines.filter(l=>l.length>2&&!skip.test(l)&&!/^\+?[\d ()\-.]+$/.test(l));if(!$('name').value){$('name').value=candidates[0]||''}if(!$('company').value&&candidates.length>1){$('company').value=candidates.find((l,i)=>i>0&&l.length<65)||''}if(!$('designation').value&&candidates.length>2){$('designation').value=candidates.find((l,i)=>i>0&&i<4&&/(manager|director|engineer|executive|president|founder|chief|sales|marketing|procurement|business|officer|head|consultant|lead|specialist|buyer|analyst)/i.test(l))||''}if(!$('email').value)$('email').value=email;if(!$('phone').value)$('phone').value=phone;if(!$('website').value)$('website').value=website;if(!$('address').value){const addr=lines.filter(l=>/\b(road|street|st\.|nagar|floor|plot|avenue|ave\.|industrial area|park|district|india|mumbai|chennai|bangalore|bengaluru|pune|delhi|gurugram|noida|hyderabad|pin|\d{6})\b/i.test(l));$('address').value=addr.join(', ')}return lines.join('\n')}
+async function fileToDataUrl(file){
+ return await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)});
+}
+function fillFromObject(obj){
+ const map={name:'name',designation:'designation',company:'company',department:'department',phone:'phone',email:'email',website:'website',address:'address'};
+ Object.entries(map).forEach(([k,id])=>{if(obj[k])$(id).value=Array.isArray(obj[k])?obj[k].join('; '):obj[k]});
+ if(obj.phones && obj.phones.length)$('phone').value=obj.phones.join('; ');
+ if(obj.emails && obj.emails.length)$('email').value=obj.emails.join('; ');
+ if(obj.websites && obj.websites.length)$('website').value=obj.websites.join('; ');
+ if(obj.addresses && obj.addresses.length && !$('address').value)$('address').value=obj.addresses.join('\n');
+ if(obj.raw_text_front || obj.raw_text_back){
+   $('rawOcr').value='FRONT SIDE\n'+(obj.raw_text_front||'(none)')+'\n\nBACK SIDE\n'+(obj.raw_text_back||'(not provided)');
+   $('ocrDetails').style.display='block';
+ }
+}
+$('aiBtn').onclick=async()=>{
+ if(!frontFile)return;
+ $('aiBtn').disabled=true;$('readBtn').disabled=true;$('progress').style.display='block';$('progressBar').style.width='20%';
+ $('ocrStatus').textContent='Sending card images to the AI extraction service…';
+ try{
+   const payload={front:await fileToDataUrl(frontFile),back:backFile?await fileToDataUrl(backFile):null};
+   $('progressBar').style.width='45%';
+   const response=await fetch('/api/extract',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+   const body=await response.json().catch(()=>({error:'Backend returned a non-JSON response.'}));
+   if(!response.ok)throw new Error(body.error||('Server error '+response.status));
+   $('progressBar').style.width='90%';
+   fillFromObject(body.contact||body);
+   $('ocrStatus').textContent='AI extraction complete. Check every field against both card sides before saving.';
+   $('formStatus').textContent='AI extraction complete — verify all details, especially phone numbers and email addresses.';
+ }catch(err){
+   $('ocrStatus').textContent='AI extraction unavailable: '+err.message+'. Check that the backend is running and OPENAI_API_KEY is configured. You can still use local OCR.';
+ }finally{$('aiBtn').disabled=!frontFile;$('readBtn').disabled=!frontFile;$('progress').style.display='none'}
+};
+async function prepareOcrImage(file){
+ const img=new Image();const url=URL.createObjectURL(file);
+ try{await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=reject;img.src=url});
+ const scale=Math.min(3,Math.max(1.5,2200/Math.max(img.naturalWidth,img.naturalHeight)));
+ const canvas=document.createElement('canvas');canvas.width=Math.round(img.naturalWidth*scale);canvas.height=Math.round(img.naturalHeight*scale);
+ const ctx=canvas.getContext('2d',{willReadFrequently:true});ctx.drawImage(img,0,0,canvas.width,canvas.height);
+ const im=ctx.getImageData(0,0,canvas.width,canvas.height),d=im.data;
+ for(let i=0;i<d.length;i+=4){const y=.299*d[i]+.587*d[i+1]+.114*d[i+2];const v=Math.max(0,Math.min(255,(y-128)*1.35+128));d[i]=d[i+1]=d[i+2]=v;}
+ ctx.putImageData(im,0,0);return canvas;
+ }finally{URL.revokeObjectURL(url)}
+}
+$('readBtn').onclick=async()=>{
+ if(!frontFile)return;
+ if(!window.Tesseract){$('ocrStatus').textContent='Local OCR library did not load. Check internet or use AI extraction with the backend.';return}
+ $('readBtn').disabled=true;$('aiBtn').disabled=true;$('progress').style.display='block';$('progressBar').style.width='0%';$('ocrStatus').textContent='Preparing card images…';
+ try{
+   if(!worker){worker=await Tesseract.createWorker('eng',1,{
+    workerPath:'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/worker.min.js',
+    corePath:'https://cdn.jsdelivr.net/npm/tesseract.js-core@5/tesseract-core-simd-lstm.wasm.js',
+    langPath:'https://tessdata.projectnaptha.com/4.0.0',
+    logger:m=>{if(m.status){$('ocrStatus').textContent=m.status==='recognizing text'?'Recognizing text…':m.status;if(m.progress!=null)$('progressBar').style.width=Math.round(m.progress*100)+'%'}}
+   })}
+   let all='';
+   for(const [label,file] of [['FRONT',frontFile],['BACK',backFile]]){
+    if(!file)continue;
+    $('ocrStatus').textContent='Reading '+label.toLowerCase()+' side…';
+    const result=await worker.recognize(await prepareOcrImage(file));
+    all+='\\n--- '+label+' SIDE ---\\n'+(result.data.text||'')+'\\n';
+   }
+   $('rawOcr').value=all.trim();$('ocrDetails').style.display='block';
+   parseText(all);
+   $('ocrStatus').textContent=all.trim()?'Local OCR complete for available sides. Verify and correct fields.':'No text detected. Try a closer, sharper photo.';
+   $('formStatus').textContent='Local OCR finished — verify every field before saving.';
+ }catch(err){console.error(err);$('ocrStatus').textContent='Local OCR failed: '+(err.message||'unknown error')+'. Try AI extraction or enter details manually.'}
+ finally{$('readBtn').disabled=!frontFile;$('aiBtn').disabled=!frontFile;$('progress').style.display='none'}
+};
+function resetFields(){fields.forEach(f=>$(f).value='');editingId=null;$('saveBtn').textContent='Save contact';$('formStatus').textContent=''}$('resetForm').onclick=resetFields;
+$('contactForm').addEventListener('submit',e=>{e.preventDefault();const obj={};fields.forEach(f=>obj[f]=$(f).value.trim());if(!obj.name){$('formStatus').textContent='Full name is required.';return}if(editingId){const idx=contacts.findIndex(c=>c.id===editingId);if(idx>=0)contacts[idx]={...contacts[idx],...obj,updatedAt:new Date().toISOString()}}else{obj.id=(crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random().toString(16).slice(2));obj.createdAt=new Date().toISOString();contacts.unshift(obj)}if(persist()){renderContacts();$('formStatus').textContent='Contact saved on this device.';resetFields();$('tabCount').textContent=contacts.length}});
+function renderContacts(){const q=$('search').value.toLowerCase().trim();const list=contacts.filter(c=>fields.some(f=>String(c[f]||'').toLowerCase().includes(q))).sort((a,b)=>(b.createdAt||'').localeCompare(a.createdAt||''));$('tabCount').textContent=contacts.length;$('contactCount').textContent=contacts.length+' saved contact'+(contacts.length===1?'':'s');if(!list.length){$('contactList').innerHTML='<div class="empty">'+(contacts.length?'No contacts match your search.':'No contacts yet. Scan your first business card to get started.')+'</div>';return}$('contactList').innerHTML=list.map(c=>`<article class="contact"><div class="contact-top"><div><strong>${escapeHtml(c.name)}</strong><div class="company">${escapeHtml([c.designation,c.company].filter(Boolean).join(' · ')||'No company added')}</div></div>${c.category?`<span class="small">${escapeHtml(c.category)}</span>`:''}</div><div class="meta">${[c.phone,c.email,c.website,c.event?'Source: '+c.event:''].filter(Boolean).map(escapeHtml).join(' · ')}</div><div class="contact-actions"><button class="mini" data-edit="${escapeHtml(c.id)}">Edit</button><button class="mini" data-delete="${escapeHtml(c.id)}">Delete</button></div></article>`).join('');$('contactList').querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>{const c=contacts.find(x=>x.id===b.dataset.edit);if(!c)return;fields.forEach(f=>$(f).value=c[f]||'');editingId=c.id;$('saveBtn').textContent='Update contact';setTab('scan');window.scrollTo({top:0,behavior:'smooth'})});$('contactList').querySelectorAll('[data-delete]').forEach(b=>b.onclick=()=>{const c=contacts.find(x=>x.id===b.dataset.delete);if(c&&confirm('Delete '+c.name+'?')){contacts=contacts.filter(x=>x.id!==c.id);persist();renderContacts()}})}$('search').addEventListener('input',renderContacts);
+function csvCell(v){let s=String(v??'');if(/^[=+@\-]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"'}function download(content,type,name){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+$('exportBtn').onclick=()=>{const cols=['name','designation','company','department','phone','email','website','category','address','event','followup','notes','createdAt'];const rows=[cols,...contacts.map(c=>cols.map(k=>c[k]||''))];const csv='\ufeff'+rows.map(r=>r.map(csvCell).join(',')).join('\r\n');download(csv,'text/csv;charset=utf-8','business_contacts_'+new Date().toISOString().slice(0,10)+'.csv')};$('backupBtn').onclick=()=>download(JSON.stringify(contacts,null,2),'application/json','cardcapture_backup_'+new Date().toISOString().slice(0,10)+'.json');$('importBtn').onclick=()=>$('importFile').click();$('importFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const arr=JSON.parse(await f.text());if(!Array.isArray(arr))throw new Error();if(confirm('Import '+arr.length+' contacts? Existing contacts will be kept; imported records will be added.')){const seen=new Set(contacts.map(c=>c.id));arr.forEach(c=>{if(c&&typeof c==='object'){if(!c.id||seen.has(c.id))c.id=(crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random());contacts.push(c)}});persist();renderContacts();alert('Import complete.')}}catch(err){alert('That file is not a valid CardCapture JSON backup.')}e.target.value=''};
+renderContacts();
+})();
+</script>
+</body></html>
