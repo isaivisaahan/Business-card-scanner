@@ -3,7 +3,7 @@
  // Configure GEMINI_API_KEY in Vercel Environment Variables.
  // Optional: GEMINI_MODEL (defaults to gemini-2.5-flash-lite).
 
-const MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash-lite";
+const MODEL = process.env.GEMINI_MODEL || "gemini-3.5-flash-lite";
 
 const schema = {
   type: "OBJECT",
