@@ -68,7 +68,18 @@ $('clearPhoto').onclick=()=>{
 };
 function parseText(text){const lines=text.split(/\n+/).map(x=>x.trim()).filter(Boolean);const email=(text.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i)||[])[0]||'';const phoneMatches=text.match(/(?:\+?\d[\d ()\-.]{7,}\d)/g)||[];const phone=phoneMatches.map(x=>x.trim()).find(x=>x.replace(/\D/g,'').length>=8)||'';const website=(text.match(/(?:https?:\/\/)?(?:www\.)?[a-z0-9-]+(?:\.[a-z0-9-]+)+\.[a-z]{2,}|(?:www\.)?[a-z0-9-]+\.(?:com|in|net|org|co\.in|io|ai|biz)/i)||[])[0]||'';const skip=/@|www\.|https?:|\b(phone|mobile|tel|fax|email|e-mail|www|http|linkedin|address|india|road|street|nagar|floor|plot|pin code|zip)\b/i;const candidates=lines.filter(l=>l.length>2&&!skip.test(l)&&!/^\+?[\d ()\-.]+$/.test(l));if(!$('name').value){$('name').value=candidates[0]||''}if(!$('company').value&&candidates.length>1){$('company').value=candidates.find((l,i)=>i>0&&l.length<65)||''}if(!$('designation').value&&candidates.length>2){$('designation').value=candidates.find((l,i)=>i>0&&i<4&&/(manager|director|engineer|executive|president|founder|chief|sales|marketing|procurement|business|officer|head|consultant|lead|specialist|buyer|analyst)/i.test(l))||''}if(!$('email').value)$('email').value=email;if(!$('phone').value)$('phone').value=phone;if(!$('website').value)$('website').value=website;if(!$('address').value){const addr=lines.filter(l=>/\b(road|street|st\.|nagar|floor|plot|avenue|ave\.|industrial area|park|district|india|mumbai|chennai|bangalore|bengaluru|pune|delhi|gurugram|noida|hyderabad|pin|\d{6})\b/i.test(l));$('address').value=addr.join(', ')}return lines.join('\n')}
 async function fileToDataUrl(file){
- return await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)});
+ // Resize/compress photos before sending to the serverless function to reduce payload size.
+ const url=URL.createObjectURL(file);
+ try{
+  const img=new Image();
+  await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=reject;img.src=url});
+  const maxSide=1200,scale=Math.min(1,maxSide/Math.max(img.naturalWidth,img.naturalHeight));
+  const canvas=document.createElement('canvas');
+  canvas.width=Math.max(1,Math.round(img.naturalWidth*scale));
+  canvas.height=Math.max(1,Math.round(img.naturalHeight*scale));
+  canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);
+  return canvas.toDataURL('image/jpeg',0.68);
+ }finally{URL.revokeObjectURL(url)}
 }
 function fillFromObject(obj){
  const map={name:'name',designation:'designation',company:'company',department:'department',phone:'phone',email:'email',website:'website',address:'address'};
@@ -90,7 +101,9 @@ $('aiBtn').onclick=async()=>{
    const payload={front:await fileToDataUrl(frontFile),back:backFile?await fileToDataUrl(backFile):null};
    $('progressBar').style.width='45%';
    const response=await fetch('/api/extract',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
-   const body=await response.json().catch(()=>({error:'Backend returned a non-JSON response.'}));
+   const responseText=await response.text();
+   let body;
+   try{body=JSON.parse(responseText)}catch(_){const preview=responseText.replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim().slice(0,180);throw new Error('HTTP '+response.status+' returned non-JSON: '+(preview||'(empty response)')+'. This often means the Vercel function is missing, crashed, or the request is too large.')}
    if(!response.ok)throw new Error(body.error||('Server error '+response.status));
    $('progressBar').style.width='90%';
    fillFromObject(body.contact||body);

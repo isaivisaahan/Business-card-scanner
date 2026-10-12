@@ -1,35 +1,26 @@
-# CardCapture AI — setup
+# CardCapture AI — Vercel deployment
 
-This build adds front/back capture and an optional vision-model extraction step. The API key is kept on the server, not in browser code.
+This repository layout is prepared for Vercel. The web app is `index.html` and the AI endpoint is `api/extract.js`.
 
-## Requirements
-- Node.js 18 or newer
-- An OpenAI API key with API billing enabled
+## Deploy
+1. Upload the files/folders in this ZIP to the root of your GitHub repository:
+   - `index.html`
+   - `api/extract.js`
+   - `package.json`
+   - `README.md`
+2. Import or redeploy that GitHub repository in Vercel.
+3. In Vercel: **Project → Settings → Environment Variables**, add:
+   - Name: `OPENAI_API_KEY`
+   - Value: your secret OpenAI API key
+   - Environments: Production (and Preview if you want to test preview deployments)
+4. Optional environment variable: `OPENAI_MODEL` = `gpt-4.1-mini`
+5. Redeploy after adding the environment variable.
+6. Open your deployed HTTPS URL on your phone. Take a front photo and optional back photo, then tap **Extract with AI**.
 
-## Run locally
-1. Put `index.html` and `server.js` in the same folder.
-2. Open a terminal in that folder.
-3. Set your API key as an environment variable (do not paste it into the HTML or commit it to source control).
-
-### Windows PowerShell
-```powershell
-$env:OPENAI_API_KEY="YOUR_API_KEY"
-$env:OPENAI_MODEL="gpt-4.1-mini"
-node server.js
-```
-
-### macOS / Linux
-```bash
-export OPENAI_API_KEY="YOUR_API_KEY"
-export OPENAI_MODEL="gpt-4.1-mini"
-node server.js
-```
-
-4. Open `http://localhost:8080`. For use on your phone, deploy this server to a private HTTPS host and open its URL on the phone. For local-network testing, the phone and computer must be on the same Wi-Fi; use the computer's LAN IP and allow the port through the firewall.
-5. Click **Extract with AI**. The app sends both card images to your backend, which calls the OpenAI Responses API and returns structured fields. Review the fields before saving.
-
-## Privacy and accuracy
-- AI extraction requires internet access and sends card images to the model provider through your backend. Do not scan sensitive cards unless your organization's policies permit it.
-- The model can still misread small, blurry, reflective, or stylized text. Always verify phone numbers, email addresses, and names against the original card.
-- Local OCR remains available as a fallback. CSV export and local browser storage continue to work.
-- API usage may incur charges. Never put `OPENAI_API_KEY` in client-side HTML or a public repository.
+## Notes
+- Keep the API key in Vercel environment variables. Never place it in `index.html` or commit it to GitHub.
+- This uses the OpenAI Responses API with image input and strict JSON-schema output.
+- Images are resized/compressed in the browser (1200px, JPEG quality 0.68) before upload to reduce the chance of exceeding Vercel serverless request-body limits.
+- Contact records remain in local browser storage; they do not automatically sync between phone and laptop. Export CSV/JSON backups.
+- AI extraction sends card images to OpenAI through your Vercel function. Use only if permitted by your privacy requirements.
+- Verify extracted names, phone numbers, email addresses and domains against the original card. No OCR system guarantees perfect accuracy.

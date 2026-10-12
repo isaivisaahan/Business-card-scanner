@@ -1,0 +1,9 @@
+{
+  "name": "cardcapture-vercel",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Mobile-first business card scanner with front/back AI extraction",
+  "engines": {
+    "node": ">=18"
+  }
+}
