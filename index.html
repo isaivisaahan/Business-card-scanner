@@ -4,7 +4,9 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#142b3b"><title>CardCapture — Business Card Scanner</title>
 <style>
-:root{--ink:#142b3b;--muted:#637381;--line:#dce4e8;--paper:#f4f7f8;--accent:#176b61;--accent2:#e6f3ef;--white:#fff}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}header{background:var(--ink);color:white;padding:22px 18px 24px;border-radius:0 0 22px 22px}header .eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;opacity:.7}h1{font-size:27px;line-height:1.15;margin:7px 0}header p{margin:8px 0 0;color:#d1dde3;font-size:14px}.wrap{max-width:760px;margin:auto;padding:16px 14px 36px}.tabs{display:flex;gap:8px;margin:0 0 14px}.tab{border:1px solid var(--line);background:white;border-radius:999px;padding:10px 15px;font-weight:650;color:var(--ink);cursor:pointer}.tab.active{background:var(--ink);color:white;border-color:var(--ink)}.panel{background:white;border:1px solid var(--line);border-radius:18px;padding:17px;margin-bottom:14px;box-shadow:0 3px 12px #142b3b08}.panel h2{font-size:17px;margin:0 0 12px}.sub{font-size:13px;color:var(--muted);margin:-6px 0 14px}.capture{display:grid;grid-template-columns:1fr 1fr;gap:10px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;border:0;border-radius:12px;padding:12px 14px;background:var(--accent);color:white;font-weight:700;font-size:14px;cursor:pointer;text-align:center}.btn.secondary{background:var(--accent2);color:var(--accent)}.btn.dark{background:var(--ink)}.btn:disabled{opacity:.45;cursor:not-allowed}.preview{width:100%;max-height:300px;object-fit:contain;background:#edf1f2;border-radius:12px;margin-top:12px;display:none}.status{font-size:13px;color:var(--muted);margin-top:10px;min-height:18px}.progress{height:5px;border-radius:10px;background:#e9eef0;overflow:hidden;margin-top:8px;display:none}.progress span{display:block;height:100%;width:0;background:var(--accent);transition:width .2s}.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:5px}.field.full{grid-column:1/-1}label{font-size:12px;font-weight:750;color:#52636d}input,textarea,select{width:100%;border:1px solid #ccd7dc;border-radius:10px;padding:11px 12px;font:inherit;font-size:15px;color:var(--ink);background:white;min-width:0}textarea{min-height:75px;resize:vertical}.form-actions{display:flex;gap:9px;margin-top:14px}.form-actions .btn{flex:1}.hidden{display:none!important}.list-head{display:flex;align-items:center;justify-content:space-between;gap:10px}.count{font-size:12px;color:var(--muted)}.contact{border:1px solid var(--line);border-radius:13px;padding:13px;margin-top:10px}.contact-top{display:flex;justify-content:space-between;gap:10px}.contact strong{display:block;font-size:15px}.contact .company{font-size:13px;color:var(--muted);margin-top:2px}.contact .meta{font-size:12px;color:var(--muted);margin-top:7px;overflow-wrap:anywhere}.contact-actions{display:flex;gap:7px;margin-top:10px}.mini{border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 10px;font-size:12px;font-weight:700;color:var(--ink);cursor:pointer}.empty{text-align:center;padding:22px 8px;color:var(--muted);font-size:14px}.notice{background:#fff7df;border:1px solid #f0dfa7;border-radius:12px;padding:11px 12px;font-size:12px;color:#6b571b;margin-top:12px}.privacy{font-size:12px;color:var(--muted);text-align:center;padding:4px 12px 20px}.small{font-size:12px;color:var(--muted)}.ocr-output{display:none;margin-top:12px}.ocr-output textarea{font-family:ui-monospace,monospace;font-size:13px;min-height:120px;background:#f8fafb}.diagnostic{font-size:12px;color:var(--muted);margin-top:7px}@media(max-width:440px){.fields{grid-template-columns:1fr}.field.full{grid-column:auto}.wrap{padding-left:11px;padding-right:11px}.panel{padding:14px}.capture{grid-template-columns:1fr 1fr}.btn{padding:11px 8px;font-size:13px}}
+:root{--ink:#142b3b;--muted:#637381;--line:#dce4e8;--paper:#f4f7f8;--accent:#176b61;--accent2:#e6f3ef;--white:#fff}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}header{background:var(--ink);color:white;padding:22px 18px 24px;border-radius:0 0 22px 22px}header .eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;opacity:.7}h1{font-size:27px;line-height:1.15;margin:7px 0}header p{margin:8px 0 0;color:#d1dde3;font-size:14px}.wrap{max-width:760px;margin:auto;padding:16px 14px 36px}.tabs{display:flex;gap:8px;margin:0 0 14px}.tab{border:1px solid var(--line);background:white;border-radius:999px;padding:10px 15px;font-weight:650;color:var(--ink);cursor:pointer}.tab.active{background:var(--ink);color:white;border-color:var(--ink)}.panel{background:white;border:1px solid var(--line);border-radius:18px;padding:17px;margin-bottom:14px;box-shadow:0 3px 12px #142b3b08}.panel h2{font-size:17px;margin:0 0 12px}.sub{font-size:13px;color:var(--muted);margin:-6px 0 14px}.capture{display:grid;grid-template-columns:1fr 1fr;gap:10px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;border:0;border-radius:12px;padding:12px 14px;background:var(--accent);color:white;font-weight:700;font-size:14px;cursor:pointer;text-align:center}.btn.secondary{background:var(--accent2);color:var(--accent)}.btn.dark{background:var(--ink)}.btn:disabled{opacity:.45;cursor:not-allowed}.preview{width:100%;max-height:300px;object-fit:contain;background:#edf1f2;border-radius:12px;margin-top:12px;display:none}.status{font-size:13px;color:var(--muted);margin-top:10px;min-height:18px}.progress{height:5px;border-radius:10px;background:#e9eef0;overflow:hidden;margin-top:8px;display:none}.progress span{display:block;height:100%;width:0;background:var(--accent);transition:width .2s}.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:5px}.field.full{grid-column:1/-1}label{font-size:12px;font-weight:750;color:#52636d}input,textarea,select{width:100%;border:1px solid #ccd7dc;border-radius:10px;padding:11px 12px;font:inherit;font-size:15px;color:var(--ink);background:white;min-width:0}textarea{min-height:75px;resize:vertical}.form-actions{display:flex;gap:9px;margin-top:14px}.form-actions .btn{flex:1}.hidden{display:none!important}.list-head{display:flex;align-items:center;justify-content:space-between;gap:10px}.count{font-size:12px;color:var(--muted)}.contact{border:1px solid var(--line);border-radius:13px;padding:13px;margin-top:10px}.contact-top{display:flex;justify-content:space-between;gap:10px}.contact strong{display:block;font-size:15px}.contact .company{font-size:13px;color:var(--muted);margin-top:2px}.contact .meta{font-size:12px;color:var(--muted);margin-top:7px;overflow-wrap:anywhere}.contact-actions{display:flex;gap:7px;margin-top:10px}.mini{border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 10px;font-size:12px;font-weight:700;color:var(--ink);cursor:pointer}.empty{text-align:center;padding:22px 8px;color:var(--muted);font-size:14px}.notice{background:#fff7df;border:1px solid #f0dfa7;border-radius:12px;padding:11px 12px;font-size:12px;color:#6b571b;margin-top:12px}.privacy{font-size:12px;color:var(--muted);text-align:center;padding:4px 12px 20px}.small{font-size:12px;color:var(--muted)}.ocr-output{display:none;margin-top:12px}.ocr-output textarea{font-family:ui-monospace,monospace;font-size:13px;min-height:120px;background:#f8fafb}.diagnostic{font-size:12px;color:var(--muted);margin-top:7px}
+.bulk-drop{border:2px dashed #b9c9ce;border-radius:14px;padding:20px 14px;text-align:center;background:#f8fbfb;cursor:pointer;transition:.15s}.bulk-drop.dragover{border-color:var(--accent);background:var(--accent2)}.bulk-drop strong{display:block;margin:5px 0}.bulk-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.bulk-actions .btn{flex:1}.bulk-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.bulk-stat{background:#f4f7f8;border-radius:10px;padding:10px;text-align:center}.bulk-stat strong{display:block;font-size:20px}.bulk-stat span{font-size:11px;color:var(--muted)}.bulk-queue{margin-top:12px;max-height:280px;overflow:auto}.bulk-row{display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid #edf1f2;font-size:12px}.bulk-row:last-child{border-bottom:0}.bulk-row .file-name{flex:1;min-width:0;overflow-wrap:anywhere}.bulk-status{font-weight:750;white-space:nowrap}.bulk-status.done{color:#176b61}.bulk-status.failed{color:#b42318}.bulk-status.pending{color:#637381}.bulk-note{font-size:12px;color:var(--muted);margin-top:10px}
+@media(max-width:440px){.fields{grid-template-columns:1fr}.field.full{grid-column:auto}.wrap{padding-left:11px;padding-right:11px}.panel{padding:14px}.capture{grid-template-columns:1fr 1fr}.btn{padding:11px 8px;font-size:13px}}
 </style>
 </head>
 <body>
@@ -110,9 +112,161 @@ $('aiBtn').onclick=async()=>{
    $('ocrStatus').textContent='AI extraction complete. Check every field against both card sides before saving.';
    $('formStatus').textContent='AI extraction complete — verify all details, especially phone numbers and email addresses.';
  }catch(err){
-   $('ocrStatus').textContent='AI extraction unavailable: '+err.message+'. Check that the backend is running and OPENAI_API_KEY is configured. You can still use local OCR.';
+   $('ocrStatus').textContent='AI extraction unavailable: '+err.message+'. Check that the backend is running and GEMINI_API_KEY is configured. You can still use local OCR.';
  }finally{$('aiBtn').disabled=!frontFile;$('readBtn').disabled=!frontFile;$('progress').style.display='none'}
 };
+
+// Bulk upload: front-only images, processed sequentially and saved to this browser.
+let bulkItems = [];
+let bulkRunning = false;
+let bulkStopRequested = false;
+
+function bulkCounts() {
+  const done = bulkItems.filter(x => x.status === 'done').length;
+  const failed = bulkItems.filter(x => x.status === 'failed').length;
+  $('bulkTotal').textContent = bulkItems.length;
+  $('bulkDone').textContent = done;
+  $('bulkFailed').textContent = failed;
+  $('bulkRetry').disabled = bulkRunning || failed === 0;
+  $('bulkClear').disabled = bulkRunning || bulkItems.length === 0;
+  $('bulkStart').disabled = bulkRunning || !bulkItems.some(x => x.status === 'pending');
+  $('bulkStop').disabled = !bulkRunning;
+  $('bulkProgress').style.display = bulkItems.length ? 'block' : 'none';
+  const finished = done + failed;
+  $('bulkProgressBar').style.width = bulkItems.length ? Math.round(finished / bulkItems.length * 100) + '%' : '0%';
+  $('bulkSelection').textContent = bulkRunning
+    ? `Processing ${finished} of ${bulkItems.length} images. Keep this tab open.`
+    : bulkItems.length
+      ? `${bulkItems.length} image${bulkItems.length === 1 ? '' : 's'} queued. Successful contacts are saved automatically.`
+      : 'No bulk images selected.';
+  $('bulkQueue').innerHTML = bulkItems.map((item, i) => {
+    const statusText = item.status === 'done' ? 'Saved' : item.status === 'failed' ? 'Failed' : item.status === 'processing' ? 'Processing…' : 'Queued';
+    const statusClass = item.status === 'done' ? 'done' : item.status === 'failed' ? 'failed' : 'pending';
+    const extra = item.error ? `<div class="small">${escapeHtml(item.error)}</div>` : '';
+    return `<div class="bulk-row"><span class="file-name">${i + 1}. ${escapeHtml(item.file.name)}</span><span class="bulk-status ${statusClass}">${statusText}</span></div>${extra}`;
+  }).join('');
+}
+function addBulkFiles(fileList) {
+  const incoming = Array.from(fileList || []).filter(f => f.type.startsWith('image/'));
+  if (!incoming.length) {
+    $('bulkSelection').textContent = 'Choose image files such as JPG, PNG or WebP.';
+    return;
+  }
+  const room = Math.max(0, 100 - bulkItems.length);
+  const accepted = incoming.slice(0, room);
+  accepted.forEach(file => bulkItems.push({ file, status: 'pending', error: '' }));
+  if (incoming.length > room) alert(`Only ${room} more images can be added. This batch is limited to 100 images.`);
+  if (incoming.some(f => !['image/jpeg','image/png','image/webp'].includes(f.type))) {
+    $('bulkSelection').textContent = 'Some image formats may not be supported by AI extraction. JPG, PNG and WebP are recommended.';
+  }
+  $('bulkInput').value = '';
+  bulkCounts();
+}
+$('bulkInput').addEventListener('change', e => addBulkFiles(e.target.files));
+$('bulkDrop').addEventListener('dragover', e => { e.preventDefault(); $('bulkDrop').classList.add('dragover'); });
+$('bulkDrop').addEventListener('dragleave', () => $('bulkDrop').classList.remove('dragover'));
+$('bulkDrop').addEventListener('drop', e => {
+  e.preventDefault();
+  $('bulkDrop').classList.remove('dragover');
+  addBulkFiles(e.dataTransfer.files);
+});
+function wait(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
+async function extractBulkItem(item) {
+  const front = await fileToDataUrl(item.file);
+  const response = await fetch('/api/extract', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ front, back: null })
+  });
+  const responseText = await response.text();
+  let body;
+  try { body = JSON.parse(responseText); }
+  catch (_) { throw new Error(`HTTP ${response.status}: unexpected response from extraction service`); }
+  if (!response.ok) throw new Error(body.error || `Server error ${response.status}`);
+  const c = body.contact || body;
+  const phones = Array.isArray(c.phones) && c.phones.length ? c.phones.join('; ') : (c.phone || '');
+  const emails = Array.isArray(c.emails) && c.emails.length ? c.emails.join('; ') : (c.email || '');
+  const websites = Array.isArray(c.websites) && c.websites.length ? c.websites.join('; ') : (c.website || '');
+  const addresses = Array.isArray(c.addresses) && c.addresses.length ? c.addresses.join('\n') : (c.address || '');
+  const obj = {
+    name: c.name || '',
+    designation: c.designation || '',
+    company: c.company || '',
+    department: c.department || '',
+    phone: phones,
+    email: emails,
+    website: websites,
+    category: '',
+    address: addresses,
+    event: '',
+    followup: '',
+    notes: c.uncertain_fields && c.uncertain_fields.length
+      ? `Verify uncertain fields: ${c.uncertain_fields.join(', ')}`
+      : ''
+  };
+  if (!obj.name && !obj.company && !obj.phone && !obj.email) {
+    throw new Error('No usable contact details detected; check the image quality.');
+  }
+  obj.id = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2));
+  obj.createdAt = new Date().toISOString();
+  obj.sourceImageName = item.file.name;
+  contacts.unshift(obj);
+  if (!persist()) {
+    contacts = contacts.filter(x => x.id !== obj.id);
+    throw new Error('Could not save to browser storage. Export a backup or reduce the batch size.');
+  }
+}
+async function runBulk(retryOnly) {
+  if (bulkRunning) return;
+  const queue = bulkItems.filter(x => retryOnly ? x.status === 'failed' : x.status === 'pending');
+  if (!queue.length) return;
+  bulkRunning = true;
+  bulkStopRequested = false;
+  queue.forEach(x => { x.error = ''; });
+  bulkCounts();
+  let processed = 0;
+  try {
+    for (const item of queue) {
+      if (bulkStopRequested) break;
+      item.status = 'processing';
+      bulkCounts();
+      try {
+        await extractBulkItem(item);
+        item.status = 'done';
+        item.error = '';
+      } catch (err) {
+        item.status = 'failed';
+        item.error = err.message || 'Extraction failed';
+      }
+      processed++;
+      bulkCounts();
+      $('tabCount').textContent = contacts.length;
+      // Keep request pace below the displayed 15 RPM quota.
+      if (processed < queue.length && !bulkStopRequested) await wait(4300);
+    }
+  } finally {
+    bulkRunning = false;
+    bulkCounts();
+    renderContacts();
+    if (bulkStopRequested) $('bulkSelection').textContent = 'Stopped after the current card. You can resume the queued images.';
+    else if (bulkItems.every(x => x.status === 'done')) $('bulkSelection').textContent = `Finished. ${bulkItems.length} contacts saved on this device.`;
+    else $('bulkSelection').textContent = 'Batch finished. Review failed images and use Retry failed to try again.';
+  }
+}
+$('bulkStart').addEventListener('click', () => runBulk(false));
+$('bulkRetry').addEventListener('click', () => runBulk(true));
+$('bulkStop').addEventListener('click', () => {
+  bulkStopRequested = true;
+  $('bulkSelection').textContent = 'Stop requested — finishing the current card first…';
+  $('bulkStop').disabled = true;
+});
+$('bulkClear').addEventListener('click', () => {
+  if (bulkRunning) return;
+  if (bulkItems.length && !confirm('Clear the bulk queue? Contacts already saved will remain in your contacts.')) return;
+  bulkItems = [];
+  bulkCounts();
+});
+
 async function prepareOcrImage(file){
  const img=new Image();const url=URL.createObjectURL(file);
  try{await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=reject;img.src=url});
@@ -155,6 +309,7 @@ function renderContacts(){const q=$('search').value.toLowerCase().trim();const l
 function csvCell(v){let s=String(v??'');if(/^[=+@\-]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"'}function download(content,type,name){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 $('exportBtn').onclick=()=>{const cols=['name','designation','company','department','phone','email','website','category','address','event','followup','notes','createdAt'];const rows=[cols,...contacts.map(c=>cols.map(k=>c[k]||''))];const csv='\ufeff'+rows.map(r=>r.map(csvCell).join(',')).join('\r\n');download(csv,'text/csv;charset=utf-8','business_contacts_'+new Date().toISOString().slice(0,10)+'.csv')};$('backupBtn').onclick=()=>download(JSON.stringify(contacts,null,2),'application/json','cardcapture_backup_'+new Date().toISOString().slice(0,10)+'.json');$('importBtn').onclick=()=>$('importFile').click();$('importFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const arr=JSON.parse(await f.text());if(!Array.isArray(arr))throw new Error();if(confirm('Import '+arr.length+' contacts? Existing contacts will be kept; imported records will be added.')){const seen=new Set(contacts.map(c=>c.id));arr.forEach(c=>{if(c&&typeof c==='object'){if(!c.id||seen.has(c.id))c.id=(crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random());contacts.push(c)}});persist();renderContacts();alert('Import complete.')}}catch(err){alert('That file is not a valid CardCapture JSON backup.')}e.target.value=''};
 renderContacts();
+bulkCounts();
 })();
 </script>
 </body></html>
